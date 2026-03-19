@@ -1,15 +1,10 @@
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { useId, useState } from "react";
-import type { UserId } from "@/features/auth/api";
 import {
   createExampleTodoFn,
   exampleTodosQueryOptions,
 } from "@/features/example-todo/api";
-
-type ExampleTodoPageProps = {
-  readonly userId: UserId;
-};
 
 function getMutationErrorMessage(error: unknown) {
   if (error instanceof Error) {
@@ -26,11 +21,11 @@ function getMutationErrorMessage(error: unknown) {
   return "Something went wrong while creating the todo.";
 }
 
-export function ExampleTodoPage({ userId }: ExampleTodoPageProps) {
+export function ExampleTodoPage() {
   const router = useRouter();
   const inputId = useId();
   const [draft, setDraft] = useState("");
-  const { data: todos } = useSuspenseQuery(exampleTodosQueryOptions(userId));
+  const { data: todos } = useSuspenseQuery(exampleTodosQueryOptions());
 
   const createTodo = useMutation({
     mutationFn: createExampleTodoFn,
